@@ -33,11 +33,13 @@ const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
       <div class="photos-grid" data-all="true">
         {sortedPhotos.map((photo) => (
           <div class="photo-card" data-category={photo.data.category ?? 'all'}>
-            <img src={photo.data.image} alt={photo.data.title} loading="lazy" />
-            <div class="photo-overlay">
-              <h3>{photo.data.title}</h3>
-              <p>{photo.data.description}</p>
-            </div>
+            <button class="photo-trigger" type="button" aria-haspopup="dialog" aria-label={`View ${photo.data.title}`}>
+              <img src={photo.data.image} alt={photo.data.title} loading="lazy" />
+              <span class="photo-overlay" aria-hidden="true">
+                <span class="photo-title">{photo.data.title}</span>
+                <span class="photo-description">{photo.data.description}</span>
+              </span>
+            </button>
           </div>
         ))}
       </div>
@@ -49,12 +51,86 @@ const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
         </div>
       )}
     </section>
+
+    <dialog class="photo-dialog" aria-label="Photo viewer">
+      <div class="photo-dialog-frame">
+        <button class="dialog-close" type="button" aria-label="Close photo viewer" title="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+        <button class="dialog-nav dialog-previous" type="button" aria-label="Previous photo" title="Previous photo">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <figure>
+          <img class="dialog-image" alt="" />
+          <figcaption>
+            <strong class="dialog-title"></strong>
+            <span class="dialog-description"></span>
+          </figcaption>
+        </figure>
+        <button class="dialog-nav dialog-next" type="button" aria-label="Next photo" title="Next photo">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>
+    </dialog>
   </div>
 </BaseLayout>
 
 <script>
   const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
   const photoCards = Array.from(document.querySelectorAll<HTMLElement>('.photo-card'));
+  const photoDialog = document.querySelector<HTMLDialogElement>('.photo-dialog');
+  const dialogImage = document.querySelector<HTMLImageElement>('.dialog-image');
+  const dialogTitle = document.querySelector<HTMLElement>('.dialog-title');
+  const dialogDescription = document.querySelector<HTMLElement>('.dialog-description');
+  const closeButton = document.querySelector<HTMLButtonElement>('.dialog-close');
+  const previousButton = document.querySelector<HTMLButtonElement>('.dialog-previous');
+  const nextButton = document.querySelector<HTMLButtonElement>('.dialog-next');
+  let visiblePhotos: HTMLElement[] = [];
+  let activePhotoIndex = 0;
+
+  function showPhoto(index: number) {
+    if (!photoDialog || !dialogImage || !dialogTitle || !dialogDescription || visiblePhotos.length === 0) return;
+
+    activePhotoIndex = (index + visiblePhotos.length) % visiblePhotos.length;
+    if (previousButton) previousButton.hidden = visiblePhotos.length < 2;
+    if (nextButton) nextButton.hidden = visiblePhotos.length < 2;
+    const card = visiblePhotos[activePhotoIndex];
+    const trigger = card.querySelector<HTMLButtonElement>('.photo-trigger');
+    const image = trigger?.querySelector<HTMLImageElement>('img');
+
+    if (!image) return;
+
+    dialogImage.src = image.currentSrc || image.src;
+    dialogImage.alt = image.alt;
+    dialogTitle.textContent = trigger?.querySelector('.photo-title')?.textContent ?? image.alt;
+    dialogDescription.textContent = trigger?.querySelector('.photo-description')?.textContent ?? '';
+  }
+
+  photoCards.forEach((card) => {
+    card.querySelector<HTMLButtonElement>('.photo-trigger')?.addEventListener('click', () => {
+      visiblePhotos = photoCards.filter((photo) => !photo.hidden);
+      activePhotoIndex = visiblePhotos.indexOf(card);
+      showPhoto(activePhotoIndex);
+      photoDialog?.showModal();
+    });
+  });
+
+  closeButton?.addEventListener('click', () => photoDialog?.close());
+  previousButton?.addEventListener('click', () => showPhoto(activePhotoIndex - 1));
+  nextButton?.addEventListener('click', () => showPhoto(activePhotoIndex + 1));
+
+  photoDialog?.addEventListener('click', (event) => {
+    if (event.target === photoDialog) photoDialog.close();
+  });
+
+  photoDialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') showPhoto(activePhotoIndex - 1);
+    if (event.key === 'ArrowRight') showPhoto(activePhotoIndex + 1);
+  });
+
+  photoDialog?.addEventListener('close', () => {
+    dialogImage?.removeAttribute('src');
+  });
 
   filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -142,14 +218,35 @@ const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
     cursor: pointer;
   }
 
+  .photo-trigger {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    cursor: zoom-in;
+  }
+
+  .photo-trigger:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: -3px;
+  }
+
   .photo-card img {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform var(--transition-base);
   }
 
-  .photo-card:hover img {
+  .photo-trigger:hover img {
     transform: scale(1.05);
   }
 
@@ -168,20 +265,110 @@ const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
     transition: opacity var(--transition-base);
   }
 
-  .photo-card:hover .photo-overlay {
+  .photo-trigger:hover .photo-overlay,
+  .photo-trigger:focus-visible .photo-overlay {
     opacity: 1;
   }
 
-  .photo-overlay h3 {
+  .photo-title {
+    display: block;
     color: var(--color-white);
     margin: 0 0 var(--spacing-sm);
     font-size: var(--font-size-lg);
   }
 
-  .photo-overlay p {
+  .photo-description {
+    display: block;
     color: rgba(255, 255, 255, 0.9);
     margin: 0;
     font-size: var(--font-size-sm);
+  }
+
+  .photo-dialog {
+    width: min(1100px, calc(100vw - 32px));
+    max-width: none;
+    max-height: calc(100dvh - 32px);
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    color: var(--color-white);
+  }
+
+  .photo-dialog::backdrop {
+    background: rgba(9, 12, 10, 0.92);
+    backdrop-filter: blur(5px);
+  }
+
+  .photo-dialog-frame {
+    position: relative;
+    display: grid;
+    min-height: 220px;
+    grid-template-columns: 52px minmax(0, 1fr) 52px;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .photo-dialog figure {
+    display: grid;
+    max-height: calc(100dvh - 48px);
+    justify-items: center;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .dialog-image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(100dvh - 120px);
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+  }
+
+  .photo-dialog figcaption {
+    display: grid;
+    width: 100%;
+    gap: 2px;
+    color: var(--color-white);
+    text-align: center;
+  }
+
+  .photo-dialog figcaption span {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: var(--font-size-sm);
+  }
+
+  .dialog-close,
+  .dialog-nav {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 50%;
+    background: rgba(24, 32, 27, 0.72);
+    color: var(--color-white);
+    cursor: pointer;
+  }
+
+  .dialog-close:hover,
+  .dialog-nav:hover {
+    background: var(--color-accent);
+    color: var(--color-text-primary);
+  }
+
+  .dialog-close {
+    position: absolute;
+    z-index: 1;
+    top: 12px;
+    right: 64px;
+    font-size: 1.8rem;
+  }
+
+  .dialog-nav {
+    font-size: 2rem;
   }
 
   .empty-state {
@@ -220,6 +407,30 @@ const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
     .filter-btn {
       padding: var(--spacing-xs) var(--spacing-md);
       font-size: var(--font-size-sm);
+    }
+
+    .photo-dialog {
+      width: calc(100vw - 20px);
+      max-height: calc(100dvh - 20px);
+    }
+
+    .photo-dialog-frame {
+      grid-template-columns: 38px minmax(0, 1fr) 38px;
+      gap: 4px;
+    }
+
+    .dialog-nav {
+      width: 36px;
+      height: 36px;
+    }
+
+    .dialog-close {
+      top: -46px;
+      right: 0;
+    }
+
+    .dialog-image {
+      max-height: calc(100dvh - 130px);
     }
   }
 </style>
