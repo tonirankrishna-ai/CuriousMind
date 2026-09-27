@@ -157,10 +157,7 @@ Everything needed to build and deploy a professional portfolio site. **0 additio
 - Videos schema (YouTube ID, duration, category)
 
 ### Content Template Example
-- **src/content/comics/example-comic.md** - Shows markdown format
-  - Frontmatter structure
-  - How to format content
-  - Image path conventions
+- **src/content/comics/exploration-into-the-dark.md** - Published comic entry with ordered page images
 
 ---
 
@@ -184,7 +181,7 @@ src/
 │   └── about/index.astro
 ├── content/
 │   ├── comics/
-│   │   ├── example-comic.md
+│   │   ├── exploration-into-the-dark.md
 │   │   └── [your-comics].md
 │   ├── photos/
 │   │   └── [your-photos].md

@@ -33,8 +33,8 @@ PDF is not required. You can additionally upload a print-ready PDF under `public
 ### Via Local File
 
 ```bash
-# 1. Create file
-cp src/content/comics/example-comic.md src/content/comics/your-comic-name.md
+# 1. Create a new Markdown file
+# Use the frontmatter example above, then add your own title and page images
 
 # 2. Edit the file with your details
 # Update frontmatter (title, date, image path, etc)
