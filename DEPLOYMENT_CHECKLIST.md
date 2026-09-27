@@ -205,89 +205,21 @@ Use this checklist to ensure everything is set up correctly before going live.
 - [ ] Try navigation: Comics, Photos, Projects, Videos, About
 - [ ] Test mobile view (F12 → toggle device toolbar)
 - [ ] Check that favicon loads
-- [ ] Visit `/admin` - Decap CMS should load (may show login)
+- [ ] Visit `/admin/` - GitHub content folder links should load
 
 ---
 
-## Phase 5: Decap CMS Setup (15 minutes)
+## Phase 5: Verify GitHub Content Editing
 
-The CMS UI loads from `/admin/`. Publishing through GitHub requires a separately deployed OAuth bridge; keep its client secret out of this repository.
-
-### Create GitHub OAuth Application
-
-1. **Go to GitHub OAuth Settings**
-   - [ ] Visit github.com
-   - [ ] Click your profile → Settings
-   - [ ] Click "Developer settings" (left sidebar)
-   - [ ] Click "OAuth Apps"
-   - [ ] Click "New OAuth App"
-
-2. **Fill OAuth Form**
-   - [ ] Application name: `Curious Minds Admin`
-   - [ ] Homepage URL: `https://YOURDOMAIN.com`
-   - [ ] Authorization callback URL: use the callback URL supplied by your OAuth bridge
-   - [ ] Leave "Authorization callback URL description" blank
-   - [ ] Check: "Request user authorization (OAuth) during installation"
-   - [ ] Click "Register application"
-
-3. **Copy Credentials**
-   - [ ] Copy **Client ID** (you'll need this)
-   - [ ] Click "Generate a new client secret"
-   - [ ] Copy **Client Secret** (keep this safe!)
-
-4. **Update Decap Config** (Option A: with Netlify)
-   - [ ] If using Netlify for auth, continue to Phase 6
-   
-   Or **Update Decap Config** (Option B: Simple Auth)
-   - [ ] Go to `public/admin/config.yml`
-   - [ ] Find `backend:` section
-   - [ ] Replace with your info:
-     ```yaml
-     backend:
-       name: github
-       repo: YOUR_USERNAME/curious-minds
-       branch: main
-          auth_endpoint: YOUR_PROVIDER_AUTH_ENDPOINT
-          base_url: https://YOUR_OAUTH_SERVICE
-     ```
-
----
-
-## Phase 6: Verify CMS Publishing
-
-- [ ] Configure the OAuth bridge using that provider's current Decap CMS instructions.
-- [ ] Set the provider callback URL and secret outside the repository.
-- [ ] Set `base_url` and `auth_endpoint` in `public/admin/config.yml`.
-- [ ] Sign in at `/admin/`, create a draft entry, and verify the commit appears in the GitHub repository.
-
----
-
-## Phase 7: Test Admin Panel (5 minutes)
-
-### Access Admin Dashboard
 - [ ] Visit `https://YOURDOMAIN.com/admin/`
-- [ ] You should see Decap CMS login screen
-- [ ] Click "Login with GitHub"
-- [ ] Authorize the application when prompted
-- [ ] You should see admin dashboard with collections
-
-### Test Creating Content
-- [ ] Click "Comics" → "New Comic"
-- [ ] Fill in test data:
-  - Title: "Test Comic"
-  - Description: "This is a test"
-  - Date: Today
-  - Genre: "adventure"
-- [ ] Click "Save" (not publish yet - just save as draft)
-- [ ] Click "Publish"
-- [ ] You should see "Entry published" message
-- [ ] Go to website and check Comics page
-- [ ] Your test comic should appear!
-- [ ] Delete test comic (click it, then delete)
+- [ ] Open one of the content folders in GitHub
+- [ ] Add or edit a Markdown entry and commit it to `main`
+- [ ] Confirm the GitHub Actions deployment succeeds
+- [ ] Confirm the updated content appears on the site
 
 ---
 
-## Phase 8: Final Verification (10 minutes)
+## Phase 6: Final Verification (10 minutes)
 
 ### Site Functionality
 - [ ] Homepage loads quickly
@@ -300,14 +232,10 @@ The CMS UI loads from `/admin/`. Publishing through GitHub requires a separately
 - [ ] Responsive design works on mobile (F12)
 - [ ] No console errors (F12 → Console tab)
 
-### Admin Panel
-- [ ] Admin panel accessible at `/admin/`
-- [ ] Can log in with GitHub
-- [ ] Collections visible (Comics, Photos, Projects, Videos)
-- [ ] Can create new entries
-- [ ] Can upload images
-- [ ] Can publish content
-- [ ] Published content appears on website
+### Content Hub
+- [ ] GitHub content links on `/admin/` open the correct folders
+- [ ] GitHub commits trigger a successful Pages deployment
+- [ ] Published content appears on the website
 
 ### Performance
 - [ ] Homepage loads in < 2 seconds
@@ -362,12 +290,11 @@ All checks passed? You're ready to go live!
 - [ ] Try clearing browser cache (Ctrl+Shift+Del)
 - [ ] Check GitHub Actions for build errors
 
-### Admin panel blank?
+### GitHub content hub not opening?
 - [ ] Clear browser cache
 - [ ] Try incognito window
 - [ ] Check browser console for errors (F12)
-- [ ] Verify GitHub OAuth app is created correctly
-- [ ] If using Netlify, verify environment variables are set
+- [ ] Sign in to GitHub and confirm you can access the repository
 
 ### Images not loading?
 - [ ] Verify image is in `/public/images/`
@@ -394,14 +321,13 @@ If you get stuck:
 
 2. **Check documentation:**
    - Astro: https://docs.astro.build
-   - Decap CMS: https://decapcms.org/docs/
    - GitHub Pages: https://docs.github.com/en/pages
    - GoDaddy Support: https://www.godaddy.com/help
 
 3. **Common issues:**
    - Slow DNS propagation (wait 30 minutes)
    - Cache issues (clear browser cache)
-   - OAuth misconfiguration (verify GitHub app)
+  - Repository access permissions
 
 ---
 

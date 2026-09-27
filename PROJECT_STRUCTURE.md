@@ -29,7 +29,7 @@ curious-minds/
 │   │   │   └── index.astro
 │   │   ├── about/
 │   │   │   └── index.astro
-│   │   └── admin.astro
+│   │   └── admin/index.astro
 │   ├── styles/
 │   │   ├── globals.css
 │   │   └── variables.css
@@ -43,9 +43,6 @@ curious-minds/
 │       └── photos/
 │           └── [photo-entries-in-markdown]
 ├── public/
-│   ├── admin/
-│   │   ├── config.yml (Decap CMS config)
-│   │   └── index.html (Decap CMS admin panel)
 │   ├── images/
 │   │   ├── comics/
 │   │   ├── photos/
@@ -68,7 +65,7 @@ curious-minds/
 4. `CNAME` - GitHub Pages domain file
 5. Layout components (Astro files)
 6. Content collection configuration
-7. Decap CMS admin configuration
+7. GitHub content hub
 8. Deployment & DNS setup guide
 
 All files are provided in the following sections.

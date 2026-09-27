@@ -1,16 +1,100 @@
 ---
-const title = 'Curious Mind CMS';
+const collections = [
+  {
+    title: 'Comics',
+    description: 'Stories, descriptions, genres, and cover images.',
+    path: 'comics',
+  },
+  {
+    title: 'Photos',
+    description: 'Photo captions, categories, and image paths.',
+    path: 'photos',
+  },
+  {
+    title: 'Projects',
+    description: 'Project details, tags, status, and links.',
+    path: 'projects',
+  },
+  {
+    title: 'Videos',
+    description: 'Video details and YouTube URLs or IDs.',
+    path: 'videos',
+  },
+];
+
+const repositoryContentUrl = 'https://github.com/tonirankrishna-ai/CuriousMind/tree/main/src/content';
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>{title}</title>
+    <meta name="theme-color" content="#f4f0e8" />
+    <title>Manage content | Curious Mind</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #f4f0e8;
+        --ink: #18201b;
+        --coral: #ff735b;
+        --muted: #687266;
+        --line: rgba(24, 32, 27, 0.2);
+        font-family: 'DM Sans', 'Trebuchet MS', sans-serif;
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.5; }
+      a { color: inherit; }
+      .topbar { display: flex; justify-content: space-between; gap: 20px; padding: 22px 6vw; border-bottom: 1px solid var(--line); }
+      .wordmark { font-weight: 700; text-decoration: none; }
+      .wordmark span { color: var(--coral); }
+      .back-link, .eyebrow, .collection-link { font-size: 0.76rem; font-weight: 700; text-transform: uppercase; }
+      .back-link { text-decoration: none; }
+      main { width: min(900px, calc(100% - 40px)); margin: 0 auto; padding: 76px 0 92px; }
+      .eyebrow { color: var(--muted); }
+      h1, h2 { font-family: Fraunces, Georgia, serif; font-weight: 400; line-height: 1.05; }
+      h1 { max-width: 700px; margin: 0 0 18px; font-size: clamp(2.8rem, 8vw, 5rem); }
+      .intro { max-width: 620px; margin-bottom: 42px; color: var(--muted); font-size: 1.05rem; }
+      .collections { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+      .collections li { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line); }
+      h2 { margin: 0 0 7px; font-size: 1.7rem; }
+      .collections p { margin: 0; color: var(--muted); }
+      .collection-link { flex: 0 0 auto; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+      .collection-link:hover, .back-link:hover { color: #c44b38; }
+      .note { margin-top: 30px; color: var(--muted); font-size: 0.9rem; }
+      .note a { color: var(--ink); }
+      @media (max-width: 620px) {
+        .topbar { padding: 18px 5vw; }
+        main { padding-top: 54px; }
+        .collections li { align-items: flex-start; flex-direction: column; gap: 12px; }
+      }
+    </style>
   </head>
   <body>
-    <script is:inline src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <header class="topbar">
+      <a class="wordmark" href="/">curious<span>mind</span></a>
+      <a class="back-link" href="/">Back to site</a>
+    </header>
+    <main>
+      <p class="eyebrow">GitHub content</p>
+      <h1>Manage the archive.</h1>
+      <p class="intro">Choose a folder to add or edit entries. On GitHub, use <strong>Add file → Create new file</strong> to add a Markdown entry, or upload images to the matching folder under <code>public/images/</code>.</p>
+      <ul class="collections">
+        {collections.map((collection) => (
+          <li>
+            <div>
+              <h2>{collection.title}</h2>
+              <p>{collection.description}</p>
+            </div>
+            <a class="collection-link" href={`${repositoryContentUrl}/${collection.path}`} target="_blank" rel="noopener noreferrer">
+              Open folder <span aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <p class="note">Changes committed to <code>main</code> build and publish automatically. See <a href="https://github.com/tonirankrishna-ai/CuriousMind/blob/main/QUICK_START.md" target="_blank" rel="noopener noreferrer">the publishing guide</a> for content formats.</p>
+    </main>
   </body>
 </html>

@@ -136,6 +136,17 @@ const { Content } = await render(comic);
     padding: var(--spacing-2xl) 0;
   }
 
+  .comic-content :global(p:has(> img)) {
+    margin: var(--spacing-2xl) 0;
+  }
+
+  .comic-content :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-sm);
+  }
+
   .comic-content :global(p) {
     line-height: 1.8;
     margin-bottom: var(--spacing-lg);

@@ -20,7 +20,7 @@ Everything needed to build and deploy a professional portfolio site. **0 additio
 - GitHub repository configuration
 - GitHub Pages deployment
 - GoDaddy domain setup (with DNS records)
-- Decap CMS authentication setup
+- GitHub content editing setup
 - Complete troubleshooting section
 - **Length:** ~500 lines, very detailed
 
@@ -164,24 +164,9 @@ Everything needed to build and deploy a professional portfolio site. **0 additio
 
 ---
 
-## 🛠️ Admin Panel Setup
+## 🛠️ GitHub Content Hub
 
-### **public/admin/config.yml**
-- Decap CMS configuration
-- GitHub backend setup
-- Media folder configuration
-- Collections definitions:
-  - Comics collection with genre field
-  - Photos collection with category filter
-  - Projects collection with tags and links
-  - Videos collection with YouTube support
-- Form layouts for each collection
-- Field validation rules
-
-### **public/admin/index.html**
-- Decap CMS HTML entry point
-- Loads CMS interface
-- OAuth widget loader
+The `/admin/` page links to the repository's Comics, Photos, Projects, and Videos folders. Add Markdown files and upload images directly through GitHub.
 
 ---
 
@@ -218,9 +203,6 @@ src/
     └── variables.css
 
 public/
-├── admin/
-│   ├── config.yml
-│   └── index.html
 ├── images/
 │   ├── comics/
 │   ├── photos/
@@ -238,11 +220,10 @@ public/
 - ✅ **TypeScript** - Type safety
 - ✅ **CSS** - Modern CSS with variables
 
-### CMS & Admin
-- ✅ **Decap CMS** - Open-source headless CMS
-- ✅ **OAuth** - GitHub authentication
-- ✅ **Form validation** - Zod schemas
-- ✅ **Image upload** - To GitHub via CMS
+### Content Editing
+- ✅ **GitHub content hub** - Direct links to content folders
+- ✅ **Markdown entries** - Stored and versioned in the repository
+- ✅ **Image uploads** - Stored under `public/images/`
 
 ### Design System
 - ✅ **Color variables** - Customizable theme
@@ -274,7 +255,7 @@ public/
 3. 📤 Push code to GitHub
 4. 🌐 Update GoDaddy DNS records
 5. ⚙️ Configure GitHub Pages
-6. 🔐 Create GitHub OAuth app (optional)
+6. ✍️ Add or edit content through GitHub
 
 ---
 
@@ -288,7 +269,7 @@ public/
 | **Layouts** | 1 | BaseLayout wrapper |
 | **Page Templates** | 5 | Home, Comics, About, etc. |
 | **Styles** | 2 | Variables + Globals |
-| **CMS Config** | 2 | YAML + HTML |
+| **GitHub content hub** | 1 | Astro route |
 | **Total Provided** | **24 files** | Complete solution |
 
 ---
@@ -397,7 +378,6 @@ That's it! Only 3 core dependencies.
 |------|-------------|---------|
 | Website Builder | $300-3000 | Free |
 | Web Hosting | $5-100/month | Free |
-| CMS Software | $100-500/month | Free |
 | Domain (GoDaddy) | $12/year | Your cost |
 | Design System | $2000+ | Included |
 | Components Library | $300+ | Included |

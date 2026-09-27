@@ -26,7 +26,7 @@
 │  ├─ photos/ (photo galleries)                                   │
 │  ├─ projects/ (project showcase)                                │
 │  ├─ videos/ (video embeds)                                      │
-│  ├─ admin/ (Decap CMS admin panel)                              │
+│  ├─ admin/ (GitHub content folder links)                        │
 │  ├─ images/ (your content images)                               │
 │  └─ styles.css (design)                                         │
 └─────────────────────────────────────────────────────────────────┘
@@ -36,29 +36,27 @@
 
 ## Content Publishing Flow
 
-### **Flow 1: Using Admin Dashboard (Recommended)**
+### **Flow 1: Using the GitHub Content Hub**
 
 ```
 YOU                          ADMIN PANEL                 GITHUB               PAGES
  │                                                         │                     │
  ├──────────────────────────────────────────────────────────────────────────────┤
  │ Visit https://yourdomain.com/admin/                   │                     │
- │ (browser loads Decap CMS interface)                    │                     │
+ │ (browser opens repository content folders)              │                     │
  │                                                        │                     │
  ├──────────────────────────────────────────────────────────────────────────────┤
- │ Log in with GitHub OAuth                              │                     │
- │ (Decap CMS authenticates with your GitHub account)   │                     │
+ │ Sign in to GitHub if prompted                         │                     │
+ │ Open the collection folder                             │                     │
  │                                                        │                     │
  ├──────────────────────────────────────────────────────────────────────────────┤
- │ Fill comic form:                                       │                     │
- │ ├─ Title: "The Windy Forest"                          │                     │
- │ ├─ Genre: "Horror"                                    │                     │
- │ ├─ Description: "..."                                 │                     │
- │ ├─ Upload image                                       │                     │
- │ └─ Click "PUBLISH"                                    │                     │
+ │ Create a Markdown entry:                               │                     │
+ │ ├─ Add title, date, genre, description                 │                     │
+ │ ├─ Upload cover image under public/images/comics/      │                     │
+ │ └─ Commit the file to main                             │                     │
  │                                                        │                     │
  ├─────────────────────────────────────────────────────────────────────────────┤
- │                                      Decap CMS creates:                    │
+ │                                      GitHub stores:                        │
  │                                      1. Markdown file                       │
  │                                      2. Image file                         │
  │                                      (in your repo)                        │
@@ -176,8 +174,8 @@ Your Creative Work
 
                         ↓
                         
-Each Collection ──→ Markdown Files ──→ Decap CMS Admin ──→ GitHub ──→ Astro ──→ HTML
-                 (src/content/...)      (Forms)           (Stores)   (Builds)  (Pages)
+Each Collection ──→ Markdown Files ──→ GitHub Editor ──→ GitHub Actions ──→ Astro ──→ HTML
+                 (src/content/...)    (Edit/commit)       (Builds)                 (Pages)
                  with frontmatter
 ```
 
@@ -185,19 +183,19 @@ Each Collection ──→ Markdown Files ──→ Decap CMS Admin ──→ Git
 
 ## Data Flow Diagram
 
-### Creating Content (Admin Panel)
+### Creating Content (GitHub)
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                    DECAP CMS FORM                              │
-│                   (/admin interface)                           │
+│                    GITHUB EDITOR                                │
+│                   (/admin folder link)                          │
 │                                                                 │
 │  [Title Input]     [Date Picker]      [Select Dropdown]       │
 │  [Description]     [Image Upload]     [Tag Input]             │
 │  [Content Editor]  [Links]            [Checkboxes]            │
 │                                                                 │
 │              ┌────────────────────────┐                        │
-│              │   [PUBLISH BUTTON]     │                        │
+│              │   [COMMIT CHANGES]     │                        │
 │              └────────────────────────┘                        │
 └────────────────┬────────────────────────────────────────────────┘
                  │
@@ -314,7 +312,7 @@ npm run build (Astro compilation)
 │  ├─ projects/index.html             (projects showcase)       │
 │  ├─ videos/index.html               (video collection)        │
 │  ├─ about/index.html                (about page)              │
-│  ├─ admin/                          (CMS admin)               │
+│  ├─ admin/                          (GitHub content links)     │
 │  ├─ images/                         (all your images)         │
 │  └─ styles.css                      (minified CSS)            │
 └──────────────────────────────────────────────────────────────────┘
@@ -457,7 +455,7 @@ Want to add a new content type?
 
 1. Create new folder: src/content/illustrations/
 2. Add schema to src/content.config.ts
-3. Update Decap config: public/admin/config.yml
+3. Add a link to the new folder on `src/pages/admin/index.astro`
 4. Create page: src/pages/illustrations/index.astro
 5. Add component: src/components/IllustrationGallery.astro
 6. Done! New collection ready.

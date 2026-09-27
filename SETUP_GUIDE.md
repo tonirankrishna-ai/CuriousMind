@@ -5,7 +5,7 @@
 2. [GitHub Repository Setup](#github-repository-setup)
 3. [GitHub Pages Configuration](#github-pages-configuration)
 4. [GoDaddy Domain Configuration](#godaddy-domain-configuration)
-5. [Decap CMS (Admin Panel) Setup](#decap-cms-admin-panel-setup)
+5. [GitHub Content Editing](#github-content-editing)
 6. [Deployment Workflow](#deployment-workflow)
 7. [Content Publishing Workflow](#content-publishing-workflow)
 8. [Troubleshooting](#troubleshooting)
@@ -51,7 +51,7 @@ curious-minds/
 │   │   └── videos/
 │   └── styles/        # CSS files
 ├── public/
-│   ├── admin/         # Decap CMS admin panel
+│   ├── admin/         # GitHub content hub route
 │   ├── images/        # Images for content
 │   ├── favicon.svg
 │   └── CNAME          # Domain file
@@ -188,26 +188,14 @@ You should see the GitHub Pages IP addresses.
 
 ---
 
-## Decap CMS (Admin Panel) Setup
+## GitHub Content Editing
 
-### What is Decap CMS?
+The `/admin/` page links directly to the content folders in GitHub. No CMS, OAuth app, or Netlify setup is needed.
 
-Decap CMS gives you a user-friendly admin dashboard (`/admin`) where you can:
-- Add comics, photos, projects, and videos
-- Upload images
-- Publish content directly to GitHub
-- No coding required!
-
-### GitHub OAuth Requirement
-
-The `/admin/` interface is included and configured for `tonirankrishna-ai/CuriousMind`. GitHub Pages serves static files only, so it cannot perform the OAuth exchange required to publish changes. To enable GitHub login:
-
-1. Choose and deploy a compatible OAuth bridge.
-2. Register a GitHub OAuth application and use the callback URL provided by that bridge, not a guessed callback on the static site.
-3. Store the client secret in the bridge's secret settings. Never commit it to this repository.
-4. Set `base_url` and `auth_endpoint` in `public/admin/config.yml` to the values required by the selected provider.
-
-Until the OAuth bridge is configured, publish by editing Markdown locally or through GitHub's web editor. The CMS interface itself can still be opened at `/admin/`.
+1. Open `/admin/` and choose Comics, Photos, Projects, or Videos.
+2. In GitHub, choose **Add file → Create new file** to add an entry, or edit an existing Markdown file.
+3. For images, choose **Add file → Upload files** in the matching folder under `public/images/`.
+4. Commit changes to `main`. GitHub Actions builds and publishes the site.
 
 ---
 
@@ -241,18 +229,11 @@ npm run preview  # See the production build locally
 
 ## Content Publishing Workflow
 
-### Method 1: Admin Dashboard (Easiest! 🎉)
+### Method 1: GitHub Content Hub
 
-1. Visit `https://curioushminds.com/admin/`
-2. Log in with GitHub
-3. Click the collection (Comics, Photos, Projects, Videos)
-4. Click **New [Item]**
-5. Fill in the form
-6. Click **Publish**
+Open `/admin/`, choose the content folder, create or edit Markdown, and commit the change to `main`.
 
-The content automatically creates a file in your GitHub repo and publishes instantly!
-
-### Method 2: Local Content Files (Advanced)
+### Method 2: Local Content Files
 
 If you prefer direct file management:
 
@@ -265,13 +246,7 @@ If you prefer direct file management:
    git push origin main
    ```
 
-### Method 3: GitHub Web Editor (Good for Quick Edits)
-
-1. Go to your GitHub repo
-2. Navigate to the file you want to edit
-3. Click the pencil icon to edit
-4. Make changes and commit directly to `main`
-5. GitHub Pages auto-rebuilds!
+You can also open an entry directly on GitHub and use the pencil icon to edit it in the browser.
 
 ---
 
@@ -388,11 +363,10 @@ Then update variables.css:
 2. Verify `astro.config.mjs` has correct site URL
 3. Make sure all markdown files have valid frontmatter
 
-### Admin panel shows blank?
+### GitHub content links not opening?
 
 1. Check browser console (F12) for errors
-2. Verify OAuth app is set up correctly
-3. Make sure Netlify is deployed if using GitHub OAuth
+2. Sign in to GitHub and confirm your account can access the repository
 
 ### Domain not working?
 
@@ -423,9 +397,7 @@ Your complete setup is **100% free**:
 
 - ✅ **Astro** - Free
 - ✅ **GitHub Pages** - Free (with public repo)
-- ✅ **Decap CMS** - Free
 - ✅ **GoDaddy Domain** - Only costs as much as you paid for domain
-- ✅ **Netlify** - Free tier for OAuth handling
 
 **Total cost**: Just your domain! 🎉
 
@@ -437,8 +409,7 @@ Your complete setup is **100% free**:
 2. ✅ Push to GitHub
 3. ✅ Configure GitHub Pages
 4. ✅ Update GoDaddy DNS
-5. ✅ Set up Decap CMS
-6. ✅ Add your content via admin panel
+5. ✅ Add your content through GitHub
 7. 🎉 Share your portfolio!
 
 ---
@@ -446,7 +417,6 @@ Your complete setup is **100% free**:
 ## Need Help?
 
 - **Astro Docs**: https://docs.astro.build
-- **Decap CMS Docs**: https://decapcms.org/docs/
 - **GitHub Pages Guide**: https://docs.github.com/en/pages
 - **GoDaddy DNS Help**: https://www.godaddy.com/help
 

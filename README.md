@@ -1,6 +1,6 @@
 # 🎨 Curious Minds - Personal Portfolio & Publishing Hub
 
-A lightning-fast, fully-featured portfolio and publishing platform built with **Astro**, **Decap CMS**, and **GitHub Pages**. Designed for creatives who make comics, take photos, build projects, and share videos — all in one beautiful place.
+A lightning-fast portfolio and publishing platform built with **Astro** and **GitHub Pages**. Add and edit content directly in the GitHub repository.
 
 **100% Free. 100% Yours. 0% Fuss.**
 
@@ -11,7 +11,7 @@ A lightning-fast, fully-featured portfolio and publishing platform built with **
 - **⚡ Lightning Fast** - Astro generates static HTML for instant load times
 - **📱 Fully Responsive** - Beautiful on mobile, tablet, and desktop
 - **🎨 Gorgeous Design** - Matches the premium aesthetic of your design mockups
-- **📝 Content management** - Decap CMS at `/admin`; GitHub publishing requires an OAuth service.
+- **📝 GitHub content hub** - `/admin` links directly to the repository folders for adding content.
 - **🖼️ Multiple Content Types**:
   - Comics with genre organization
   - Photo galleries with category filters
@@ -19,7 +19,7 @@ A lightning-fast, fully-featured portfolio and publishing platform built with **
   - Project showcase with tags and links
   - About/bio page
 - **🔐 GitHub-Powered** - Content stored in version control, backed up automatically
-- **💰 100% Free Hosting** - GitHub Pages + Decap CMS (no monthly fees)
+- **💰 100% Free Hosting** - GitHub Pages (no monthly hosting fees)
 - **🌐 Custom Domain** - Use your own domain from GoDaddy
 - **🎯 SEO-Friendly** - Meta tags, Open Graph, structured data
 - **🌙 Dark Mode Support** - Automatic light/dark theme switching
@@ -63,7 +63,7 @@ We've created detailed guides for every step:
   - GitHub repository configuration
   - GitHub Pages deployment
   - GoDaddy domain setup
-  - Decap CMS authentication
+  - Adding content through GitHub
   - Troubleshooting
 
 - **[QUICK_START.md](QUICK_START.md)** - Fast reference for publishing
@@ -93,8 +93,8 @@ curious-minds/
 │   │   ├── projects/
 │   │   ├── videos/
 │   │   ├── about/
-│   │   └── admin.astro      # Decap CMS admin redirect
-│   ├── content/             # Markdown content (auto-managed by CMS)
+│   │   └── admin/index.astro # GitHub content links
+│   ├── content/             # Markdown content edited through GitHub
 │   │   ├── comics/
 │   │   ├── photos/
 │   │   ├── projects/
@@ -103,9 +103,7 @@ curious-minds/
 │       ├── globals.css
 │       └── variables.css
 ├── public/
-│   ├── admin/               # Decap CMS admin panel
-│   │   ├── index.html
-│   │   └── config.yml
+│   ├── admin/               # Static admin page is generated from src/pages/admin/
 │   ├── images/              # Your content images
 │   │   ├── comics/
 │   │   ├── photos/
@@ -124,18 +122,16 @@ curious-minds/
 
 Choose your preferred method:
 
-### **Option 1: Admin Dashboard (Easiest!)**
+### **Option 1: GitHub Content Hub (Recommended)**
 
 ```
-1. Go to: https://yourdomain.com/admin/
-2. Log in with GitHub
-3. Click "Comics" → "New Comic"
-4. Fill in the form
-5. Click "Publish"
-6. Done! Live instantly. 🎉
+1. Go to `https://nirankrishna.in/admin/`
+2. Open the content folder you want to update.
+3. In GitHub, choose **Add file → Create new file** (or **Upload files** for images).
+4. Commit the change to `main`; GitHub Actions builds and deploys it.
 ```
 
-✨ **This is the recommended way.** It's beautiful, intuitive, and requires zero coding.
+The commit starts a deployment automatically. Check the repository's **Actions** tab for its status.
 
 ### **Option 2: Local Files**
 
@@ -198,8 +194,7 @@ git push origin main
 | Layer | Technology | Why? |
 |-------|-----------|------|
 | **Framework** | Astro | Static generation, fast builds, content-focused |
-| **Content** | Markdown + CMS | Version-controlled, Git-native, easy to maintain |
-| **CMS** | Decap CMS | Open-source, Git-backed, OAuth integration |
+| **Content** | Markdown in GitHub | Version-controlled, Git-native, easy to maintain |
 | **Hosting** | GitHub Pages | Free, reliable, automatic deploys |
 | **Domain** | GoDaddy | You already own it! |
 | **Styling** | CSS Variables | Customizable, theme-aware, performant |
@@ -227,13 +222,8 @@ featured: true
 Your content here in Markdown...
 ```
 
-### Decap CMS (Admin)
-Decap CMS:
-1. Provides `/admin` interface
-2. Authenticates with GitHub
-3. Creates/edits Markdown files
-4. Commits directly to your repo
-5. Triggers auto-deploy on GitHub Pages
+### GitHub Content Hub
+The `/admin/` page links to the repository folders. GitHub edits are committed to `main` and trigger the Pages workflow.
 
 ### GitHub Pages Deployment
 Every push to `main` branch:
@@ -266,13 +256,8 @@ Edit `src/styles/variables.css`:
 }
 ```
 
-### CMS Configuration
-Edit `public/admin/config.yml`:
-```yaml
-backend:
-  repo: YOUR_USERNAME/curious-minds  # Your repo
-  base_url: https://yourdomain.com   # Your domain
-```
+### Content Configuration
+Collection fields and validation rules live in `src/content.config.ts`.
 
 ---
 
@@ -284,8 +269,7 @@ backend:
 - [ ] GitHub Pages enabled (Settings → Pages)
 - [ ] CNAME file updated with your domain
 - [ ] DNS records updated in GoDaddy
-- [ ] Decap CMS OAuth app created (optional but recommended)
-- [ ] Admin panel tested at `/admin`
+- [ ] Content hub tested at `/admin/`
 - [ ] First content published
 - [ ] Domain working and site live!
 
@@ -366,10 +350,9 @@ All components are in `src/components/` — edit as needed!
 - Verify all Markdown files have valid frontmatter
 - Make sure image paths start with `/images/`
 
-### Admin panel not loading?
-- Clear browser cache (Ctrl+Shift+Del)
-- Check browser console for errors (F12)
-- Verify OAuth app is configured correctly
+### GitHub content hub not loading?
+- Open `https://nirankrishna.in/admin/` and hard-refresh the page.
+- If GitHub asks you to sign in, sign in with an account that can edit the repository.
 
 ### Domain not resolving?
 - Wait 10-30 minutes for DNS propagation
@@ -388,7 +371,6 @@ All components are in `src/components/` — edit as needed!
 ## 📞 Support & Resources
 
 - **Astro Documentation**: https://docs.astro.build
-- **Decap CMS Documentation**: https://decapcms.org/docs/
 - **GitHub Pages Guide**: https://docs.github.com/en/pages
 - **GoDaddy Support**: https://www.godaddy.com/help
 
@@ -415,8 +397,6 @@ All thanks to static generation with Astro! 🚀
 |---------|------|-------|
 | Astro | Free | Open-source framework |
 | GitHub Pages | Free | Public repository |
-| Decap CMS | Free | Open-source CMS |
-| GitHub OAuth | Free | Built into GitHub |
 | Domain | Your cost | Whatever you paid for yourdomain.com |
 | **Total** | **Your domain only** | No additional fees! |
 
@@ -432,7 +412,7 @@ This project is provided as-is. Customize it however you like!
 
 1. **Follow [SETUP_GUIDE.md](SETUP_GUIDE.md)** for step-by-step setup
 2. **Use [QUICK_START.md](QUICK_START.md)** as your publishing reference
-3. **Access your admin panel** at `/admin` and start publishing!
+3. **Open `/admin/`** and follow its links to add content on GitHub.
 4. **Share your portfolio** and enjoy the creative freedom
 
 ---
@@ -441,7 +421,6 @@ This project is provided as-is. Customize it however you like!
 
 Built with:
 - ⚡ [Astro](https://astro.build) - Amazing static site framework
-- 🎨 [Decap CMS](https://decapcms.org) - Headless CMS
 - 💙 [GitHub Pages](https://pages.github.com) - Free hosting
 - ✨ Your creative mind!
 

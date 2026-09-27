@@ -1,6 +1,6 @@
 # Start Here: Curious Mind
 
-The Astro site is ready for local development and static deployment. It includes the home, comics, photos, projects, videos, about, and CMS routes.
+The Astro site is ready for local development and static deployment. It includes the home, comics, photos, projects, videos, about, and GitHub content hub routes.
 
 ## Requirements
 
@@ -26,13 +26,13 @@ The workflow in `.github/workflows/deploy.yml` builds and deploys every push to 
 
 ## Manage Content
 
-Content lives in `src/content/comics/`, `photos/`, `projects/`, and `videos/`. Collection schemas are in `src/content.config.ts`. Add or edit Markdown entries and push to `main` to publish them.
+Content lives in `src/content/comics/`, `photos/`, `projects/`, and `videos/`. Collection schemas are in `src/content.config.ts`. Open [/admin/](https://nirankrishna.in/admin/) and choose a GitHub folder, or go directly to the repository. Use **Add file → Create new file** to add Markdown, or **Add file → Upload files** to upload images. Commit to `main`; GitHub Actions builds and publishes the update.
 
-The CMS interface is at `/admin/` and is configured for `tonirankrishna-ai/CuriousMind`. GitHub Pages is static and cannot perform OAuth itself; CMS publishing needs a separately configured OAuth bridge. Keep its client secret in the provider's secret store, not in this repository. Until that bridge is configured, edit content locally or through GitHub's web editor.
+For images, upload to `public/images/comics/`, `public/images/photos/`, or `public/images/projects/`. In Markdown, refer to the image as `/images/...`.
 
 ## Guides
 
-- [SETUP_GUIDE.md](SETUP_GUIDE.md): installation, deployment, and OAuth requirements
+- [SETUP_GUIDE.md](SETUP_GUIDE.md): installation, deployment, and GitHub editing
 - [QUICK_START.md](QUICK_START.md): content publishing examples
 - [ARCHITECTURE.md](ARCHITECTURE.md): site and deployment flow
 - [DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md): launch verification
