@@ -64,7 +64,7 @@ Admin Dashboard:
 3. Fill in:
    - Title: "Video Name"
    - Description: "What's the video about"
-   - YouTube Video ID: (e.g., for youtube.com/watch?v=dQw4w9WgXcQ use: dQw4w9WgXcQ)
+   - YouTube URL or ID: paste the watch, share, or embed link, or just its 11-character ID
    - Duration: "12 min"
    - Category: process/animation/comics/photography
 4. Publish
@@ -113,7 +113,7 @@ Projects:     /public/images/projects/
 
 ### Before Publishing Anything:
 
-- [ ] Install Node.js locally
+- [ ] Install Node.js v22.19+ and npm v9.6.5+
 - [ ] Run `npm install`
 - [ ] Run `npm run dev` (see it working)
 - [ ] Create GitHub repo

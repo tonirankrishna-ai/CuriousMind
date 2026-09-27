@@ -1,0 +1,77 @@
+backend:
+  name: github
+  repo: tonirankrishna-ai/CuriousMind
+  branch: main
+
+site_url: https://nirankrishna.in
+media_folder: public/images
+public_folder: /images
+publish_mode: simple
+
+collections:
+  - name: comics
+    label: Comics
+    folder: src/content/comics
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish date, name: pubDate, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Genre, name: genre, widget: select, required: false, options: [origin, adventure, mystery, suspense, horror] }
+      - { label: Cover image, name: heroImage, widget: image, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Story, name: body, widget: markdown }
+
+  - name: photos
+    label: Photos
+    folder: src/content/photos
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish date, name: pubDate, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Category, name: category, widget: select, options: [street, nature, people, places] }
+      - { label: Photo, name: image, widget: image }
+      - { label: Notes, name: body, widget: markdown, required: false }
+
+  - name: projects
+    label: Projects
+    folder: src/content/projects
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish date, name: pubDate, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Status, name: status, widget: select, options: [completed, ongoing, planned], default: planned }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: GitHub URL, name: github, widget: string, required: false }
+      - { label: Demo URL, name: demo, widget: string, required: false }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Details, name: body, widget: markdown, required: false }
+
+  - name: videos
+    label: Videos
+    folder: src/content/videos
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Publish date, name: pubDate, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: YouTube URL or video ID, name: videoId, widget: string }
+      - { label: Duration, name: duration, widget: string, required: false }
+      - { label: Category, name: category, widget: select, required: false, options: [process, animation, comics, photography] }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Notes, name: body, widget: markdown, required: false }

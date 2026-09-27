@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allPhotos = await getCollection('photos');
+const sortedPhotos = allPhotos.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const categories = ['all', 'street', 'nature', 'people', 'places'] as const;
+
+---
+
+<BaseLayout title="Photos" description="Visual moments captured">
+  <div class="container">
+    <section class="photos-header">
+      <p class="label">Photography</p>
+      <h1>Photos</h1>
+      <p class="description">
+        Moments I couldn't ignore. Shot on whatever I had with me.
+      </p>
+    </section>
+
+    <section class="photos-gallery">
+      <div class="category-filters">
+        {categories.map((cat) => (
+          <button class="filter-btn" data-category={cat} aria-pressed={cat === 'all' ? 'true' : 'false'} class:list={{ active: cat === 'all' }}>
+            {cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      <div class="photos-grid" data-all="true">
+        {sortedPhotos.map((photo) => (
+          <div class="photo-card" data-category={photo.data.category ?? 'all'}>
+            <img src={photo.data.image} alt={photo.data.title} loading="lazy" />
+            <div class="photo-overlay">
+              <h3>{photo.data.title}</h3>
+              <p>{photo.data.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {sortedPhotos.length === 0 && (
+        <div class="empty-state">
+          <p>No photos yet. Check back soon!</p>
+          <p class="hint">Use the <a href="/admin/">admin panel</a> to add your first photo.</p>
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  const filterButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.filter-btn'));
+  const photoCards = Array.from(document.querySelectorAll<HTMLElement>('.photo-card'));
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const category = button.dataset.category ?? 'all';
+
+      filterButtons.forEach((filterButton) => {
+        const isActive = filterButton === button;
+        filterButton.classList.toggle('active', isActive);
+        filterButton.setAttribute('aria-pressed', String(isActive));
+      });
+
+      photoCards.forEach((card) => {
+        card.hidden = category !== 'all' && card.dataset.category !== category;
+      });
+    });
+  });
+</script>
+
+<style>
+  .photos-header {
+    padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  h1 {
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.1;
+  }
+
+  .description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .photos-gallery {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .category-filters {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-2xl);
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 2px solid var(--color-text-primary);
+    background-color: transparent;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background-color: var(--color-text-primary);
+    color: var(--color-background);
+  }
+
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .photo-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 1;
+    cursor: pointer;
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-base);
+  }
+
+  .photo-card:hover img {
+    transform: scale(1.05);
+  }
+
+  .photo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.8) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--spacing-lg);
+    opacity: 0;
+    transition: opacity var(--transition-base);
+  }
+
+  .photo-card:hover .photo-overlay {
+    opacity: 1;
+  }
+
+  .photo-overlay h3 {
+    color: var(--color-white);
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-lg);
+  }
+
+  .photo-overlay p {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-size: var(--font-size-sm);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+
+  .empty-state p {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--font-size-lg);
+  }
+
+  .hint {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+  }
+
+  .hint a {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .photos-header {
+      padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    }
+
+    .photos-grid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: var(--spacing-md);
+    }
+
+    .category-filters {
+      gap: var(--spacing-sm);
+    }
+
+    .filter-btn {
+      padding: var(--spacing-xs) var(--spacing-md);
+      font-size: var(--font-size-sm);
+    }
+  }
+</style>

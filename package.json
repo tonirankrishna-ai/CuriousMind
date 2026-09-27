@@ -7,14 +7,13 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "deploy": "npm run build && git add . && git commit -m 'Deploy site' && git push origin main"
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=22.19.0",
+    "npm": ">=9.6.5"
   },
   "dependencies": {
-    "astro": "^4.0.0"
-  },
-  "devDependencies": {
-    "@astrojs/image": "^0.17.0",
-    "sharp": "^0.32.0"
+    "astro": "^7.3.5"
   }
 }

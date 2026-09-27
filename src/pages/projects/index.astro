@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allProjects = await getCollection('projects');
+const sortedProjects = allProjects.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const statusLabels: Record<string, string> = {
+  completed: 'Completed',
+  ongoing: 'Ongoing',
+  planned: 'Planned',
+};
+---
+
+<BaseLayout title="Projects" description="Side quests and creative experiments">
+  <div class="container">
+    <section class="projects-header">
+      <p class="label">Side Projects</p>
+      <h1>Projects</h1>
+      <p class="description">
+        Small experiments, side quests, and things I built because I had to.
+      </p>
+    </section>
+
+    <section class="projects-list">
+      {sortedProjects.map((project, index) => (
+        <div class="project-item">
+          <div class="project-number">
+            {String(index + 1).padStart(2, '0')}
+          </div>
+          <div class="project-content">
+            <div class="project-header">
+              <h3>{project.data.title}</h3>
+              <span class={`status status-${project.data.status}`}>
+                {statusLabels[project.data.status]}
+              </span>
+            </div>
+            <p class="project-description">{project.data.description}</p>
+
+            {project.data.tags.length > 0 && (
+              <div class="project-tags">
+                {project.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+            )}
+
+            {(project.data.github || project.data.demo) && (
+              <div class="project-links">
+                {project.data.demo && (
+                  <a href={project.data.demo} target="_blank" rel="noopener noreferrer">
+                    View Demo
+                  </a>
+                )}
+                {project.data.github && (
+                  <a href={project.data.github} target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </a>
+                )}
+              </div>
+            )}
+
+            <time dateTime={project.data.pubDate.toISOString()} class="project-date">
+              {project.data.pubDate.getFullYear()}
+            </time>
+          </div>
+        </div>
+      ))}
+
+      {sortedProjects.length === 0 && (
+        <div class="empty-state">
+          <p>No projects yet. Check back soon!</p>
+          <p class="hint">Use the <a href="/admin/">admin panel</a> to add your first project.</p>
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-header {
+    padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  h1 {
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.1;
+  }
+
+  .description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .projects-list {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .project-item {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: var(--spacing-2xl);
+    padding: var(--spacing-2xl) 0;
+    border-bottom: 1px solid var(--color-border);
+    align-items: flex-start;
+  }
+
+  .project-item:last-child {
+    border-bottom: none;
+  }
+
+  .project-number {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-black);
+    color: var(--color-accent);
+    opacity: 0.3;
+  }
+
+  .project-content {
+    flex: 1;
+  }
+
+  .project-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-header h3 {
+    margin: 0;
+    font-size: var(--font-size-xl);
+    line-height: 1.2;
+  }
+
+  .status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-completed {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+  }
+
+  .status-ongoing {
+    background-color: var(--color-accent-yellow);
+    color: var(--color-background);
+  }
+
+  .status-planned {
+    background-color: var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .project-description {
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .tag {
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .project-links {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .project-links a {
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .project-links a:hover {
+    color: var(--color-text-primary);
+  }
+
+  .project-date {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-top: var(--spacing-md);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+
+  .empty-state p {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--font-size-lg);
+  }
+
+  .hint {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+  }
+
+  .hint a {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 768px) {
+    .projects-header {
+      padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    }
+
+    .project-item {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+
+    .project-number {
+      display: none;
+    }
+
+    .project-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

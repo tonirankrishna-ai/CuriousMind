@@ -7,7 +7,8 @@ Use this checklist to ensure everything is set up correctly before going live.
 ## Phase 1: Local Setup (15 minutes)
 
 ### Prerequisites
-- [ ] Node.js v16+ installed (`node --version`)
+- [ ] Node.js v22.19+ installed (`node --version`)
+- [ ] npm v9.6.5+ installed (`npm --version`)
 - [ ] Git installed (`git --version`)
 - [ ] GitHub account created and logged in
 - [ ] GoDaddy account with your domain
@@ -18,9 +19,9 @@ Use this checklist to ensure everything is set up correctly before going live.
 - [ ] Run `npm install`
 - [ ] Verify no errors during installation
 - [ ] Run `npm run dev`
-- [ ] Visit `http://localhost:3000` and see homepage
+- [ ] Visit `http://localhost:4321` and see homepage
 - [ ] Check all navigation links work
-- [ ] Try admin panel at `http://localhost:3000/admin`
+- [ ] Try admin panel at `http://localhost:4321/admin/`
 
 ### Configuration
 - [ ] Update `astro.config.mjs` with your domain
@@ -38,7 +39,7 @@ Use this checklist to ensure everything is set up correctly before going live.
 - [ ] Build locally: `npm run build`
 - [ ] Check `dist/` folder was created
 - [ ] Preview build: `npm run preview`
-- [ ] Visit `http://localhost:3000` and verify it still works
+- [ ] Visit `http://localhost:4321` and verify it still works
 - [ ] All pages load correctly
 - [ ] No 404 errors
 - [ ] Mobile responsive (test with F12 → toggle device)
@@ -70,8 +71,7 @@ Use this checklist to ensure everything is set up correctly before going live.
 - [ ] Go to repository Settings
 - [ ] Click "Pages" in left sidebar
 - [ ] Under "Build and deployment":
-  - [ ] Source: Select "Deploy from a branch"
-  - [ ] Branch: Select `main` / `/ (root)`
+   - [ ] Source: Select "GitHub Actions"
 - [ ] Click "Save"
 - [ ] You should see a message: "Your site is ready to be published..."
 
@@ -211,6 +211,8 @@ Use this checklist to ensure everything is set up correctly before going live.
 
 ## Phase 5: Decap CMS Setup (15 minutes)
 
+The CMS UI loads from `/admin/`. Publishing through GitHub requires a separately deployed OAuth bridge; keep its client secret out of this repository.
+
 ### Create GitHub OAuth Application
 
 1. **Go to GitHub OAuth Settings**
@@ -223,7 +225,7 @@ Use this checklist to ensure everything is set up correctly before going live.
 2. **Fill OAuth Form**
    - [ ] Application name: `Curious Minds Admin`
    - [ ] Homepage URL: `https://YOURDOMAIN.com`
-   - [ ] Authorization callback URL: `https://YOURDOMAIN.com/auth/callback`
+   - [ ] Authorization callback URL: use the callback URL supplied by your OAuth bridge
    - [ ] Leave "Authorization callback URL description" blank
    - [ ] Check: "Request user authorization (OAuth) during installation"
    - [ ] Click "Register application"
@@ -245,49 +247,18 @@ Use this checklist to ensure everything is set up correctly before going live.
        name: github
        repo: YOUR_USERNAME/curious-minds
        branch: main
-       auth_endpoint: /api/auth
-       base_url: https://YOURDOMAIN.com
+          auth_endpoint: YOUR_PROVIDER_AUTH_ENDPOINT
+          base_url: https://YOUR_OAUTH_SERVICE
      ```
 
 ---
 
-## Phase 6: Optional - Netlify Setup (for OAuth)
+## Phase 6: Verify CMS Publishing
 
-This section is optional. If you prefer to skip OAuth setup, you can use Decap CMS in a simpler mode.
-
-### Deploy to Netlify (Recommended for OAuth)
-
-1. **Create Netlify Account**
-   - [ ] Go to netlify.com
-   - [ ] Sign up with GitHub
-   - [ ] Authorize Netlify to access your GitHub account
-
-2. **Connect Repository**
-   - [ ] Click "Add new site" → "Import an existing project"
-   - [ ] Click "GitHub"
-   - [ ] Select repository: `YOUR_USERNAME/curious-minds`
-   - [ ] Click "Deploy site"
-
-3. **Configure Build Settings**
-   - [ ] Build command: `npm run build`
-   - [ ] Publish directory: `dist`
-   - [ ] Click "Deploy"
-   - [ ] Wait for build to complete
-
-4. **Set Custom Domain** (optional)
-   - [ ] Go to "Site settings" → "Domain management"
-   - [ ] Add custom domain: `YOURDOMAIN.com`
-   - [ ] Or just use Netlify's domain for OAuth
-
-5. **Configure OAuth**
-   - [ ] Go to Netlify Site Settings → "Build & deploy" → "Environment"
-   - [ ] Add environment variable:
-     - Key: `GITHUB_CLIENT_ID`
-     - Value: [Your GitHub Client ID from Phase 5]
-   - [ ] Add another variable:
-     - Key: `GITHUB_CLIENT_SECRET`
-     - Value: [Your GitHub Client Secret from Phase 5]
-   - [ ] Trigger deploy to apply variables
+- [ ] Configure the OAuth bridge using that provider's current Decap CMS instructions.
+- [ ] Set the provider callback URL and secret outside the repository.
+- [ ] Set `base_url` and `auth_endpoint` in `public/admin/config.yml`.
+- [ ] Sign in at `/admin/`, create a draft entry, and verify the commit appears in the GitHub repository.
 
 ---
 

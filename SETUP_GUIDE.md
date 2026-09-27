@@ -15,7 +15,7 @@
 ## Local Development Setup
 
 ### Prerequisites
-- **Node.js** (v16 or higher) - [Download](https://nodejs.org/)
+- **Node.js** (v22.19 or higher) and **npm** (v9.6.5 or higher) - [Download](https://nodejs.org/)
 - **Git** - [Download](https://git-scm.com/)
 - **GitHub Account** - [Create one](https://github.com/signup)
 - **GoDaddy Account** with your domain
@@ -24,17 +24,17 @@
 
 ```bash
 # Clone the repository (after you create it on GitHub)
-git clone https://github.com/YOUR_USERNAME/curious-minds.git
-cd curious-minds
+git clone https://github.com/tonirankrishna-ai/CuriousMind.git
+cd CuriousMind
 
 # Install dependencies
-npm install
+npm ci
 
 # Start development server
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see your site live.
+Visit `http://localhost:4321` to see your site live.
 
 ### Step 2: Project Structure
 
@@ -88,8 +88,7 @@ git push -u origin main
 1. Go to your GitHub repository
 2. Click **Settings** → **Pages**
 3. Under "Build and deployment":
-   - **Source**: Deploy from a branch
-   - **Branch**: `main` / `/ (root)`
+  - **Source**: GitHub Actions
 4. Click **Save**
 
 ---
@@ -110,7 +109,7 @@ export default defineConfig({
 
 ### Step 2: CNAME File
 
-The `CNAME` file in `/public` tells GitHub Pages which domain to use:
+The `public/CNAME` file is included in the Pages artifact and tells GitHub Pages which domain to use:
 
 ```
 curioushminds.com
@@ -199,67 +198,16 @@ Decap CMS gives you a user-friendly admin dashboard (`/admin`) where you can:
 - Publish content directly to GitHub
 - No coding required!
 
-### Step 1: OAuth Setup with GitHub
+### GitHub OAuth Requirement
 
-Decap CMS uses OAuth for authentication. Set up a GitHub OAuth app:
+The `/admin/` interface is included and configured for `tonirankrishna-ai/CuriousMind`. GitHub Pages serves static files only, so it cannot perform the OAuth exchange required to publish changes. To enable GitHub login:
 
-1. Go to GitHub → **Settings** → **Developer settings** → **OAuth Apps**
-2. Click **New OAuth App**
-3. Fill in:
-   - **Application name**: Curious Minds Admin
-   - **Homepage URL**: `https://curioushminds.com`
-   - **Authorization callback URL**: `https://curioushminds.com/auth/callback`
-4. Click **Register application**
-5. Copy your **Client ID** (you'll need this)
+1. Choose and deploy a compatible OAuth bridge.
+2. Register a GitHub OAuth application and use the callback URL provided by that bridge, not a guessed callback on the static site.
+3. Store the client secret in the bridge's secret settings. Never commit it to this repository.
+4. Set `base_url` and `auth_endpoint` in `public/admin/config.yml` to the values required by the selected provider.
 
-### Step 2: Update Decap Config
-
-Edit `public/admin/config.yml`:
-
-```yaml
-backend:
-  name: github
-  repo: YOUR_USERNAME/curious-minds  # ← Update
-  branch: main
-  auth_endpoint: /api/auth
-  base_url: https://curioushminds.com  # ← Update
-```
-
-### Step 3: Deploy Auth Handler
-
-For GitHub OAuth to work with GitHub Pages, you need a serverless backend. Use **Netlify** (free tier):
-
-**Option A: Deploy to Netlify (Recommended)**
-
-1. Go to [netlify.com](https://netlify.com) and sign up
-2. Click **Add new site** → **Import an existing project**
-3. Connect your GitHub repository
-4. Build settings:
-   - **Build command**: `npm run build`
-   - **Publish directory**: `dist`
-5. Go to **Site settings** → **Build & deploy** → **Environment**
-6. Add environment variable:
-   - **Key**: `GITHUB_CLIENT_ID`
-   - **Value**: Your GitHub OAuth Client ID
-7. Deploy!
-
-**Option B: Use GitHub's OAuth Alternative**
-
-Use a simpler auth method by installing the Netlify CMS Identity widget:
-
-Edit `public/admin/index.html`:
-
-```html
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-```
-
-Then go to your Netlify site settings and enable **Netlify Identity**.
-
-### Step 4: Access Your Admin Panel
-
-Visit: `https://curioushminds.com/admin/`
-
-You should see a login screen. Use your GitHub credentials to log in.
+Until the OAuth bridge is configured, publish by editing Markdown locally or through GitHub's web editor. The CMS interface itself can still be opened at `/admin/`.
 
 ---
 
@@ -374,7 +322,7 @@ featured: false
 **Required fields:**
 - Title
 - Description
-- YouTube Video ID (just the ID, e.g., `dQw4w9WgXcQ`)
+- YouTube watch, share, or embed URL, or its 11-character video ID
 - Duration (e.g., "12 min")
 
 ---

@@ -11,7 +11,7 @@ A lightning-fast, fully-featured portfolio and publishing platform built with **
 - **⚡ Lightning Fast** - Astro generates static HTML for instant load times
 - **📱 Fully Responsive** - Beautiful on mobile, tablet, and desktop
 - **🎨 Gorgeous Design** - Matches the premium aesthetic of your design mockups
-- **📝 Effortless Publishing** - Admin dashboard at `/admin` (no coding required!)
+- **📝 Content management** - Decap CMS at `/admin`; GitHub publishing requires an OAuth service.
 - **🖼️ Multiple Content Types**:
   - Comics with genre organization
   - Photo galleries with category filters
@@ -29,17 +29,21 @@ A lightning-fast, fully-featured portfolio and publishing platform built with **
 ## 🚀 Quick Start (3 Steps)
 
 ### 1. **Local Setup** (5 min)
+Use Node.js 22.19 or newer and npm 9.6.5 or newer.
+
 ```bash
-npm install
+npm ci
 npm run dev
-# Visit http://localhost:3000
+# Visit http://localhost:4321
 ```
 
 ### 2. **Push to GitHub** (5 min)
 ```bash
 git push origin main
-# GitHub Pages auto-deploys your site!
+# The GitHub Actions workflow builds and deploys the site.
 ```
+
+For the first deployment, set **Settings → Pages → Build and deployment → Source** to **GitHub Actions**.
 
 ### 3. **Point Your Domain** (5 min)
 - Update GoDaddy DNS records (follow our guide)

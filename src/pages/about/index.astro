@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="About the Curious Mind creative archive.">
+  <div class="container about-page">
+    <header class="about-heading">
+      <p class="eyebrow">A little context</p>
+      <h1>Made by a curious mind.</h1>
+    </header>
+    <div class="about-copy">
+      <p class="about-lead">Curious Mind is a living archive for the things worth making, noticing, and sharing.</p>
+      <p>This space brings together comics, photographs, projects, and moving images. Some are finished, some are still becoming. The common thread is curiosity: following an idea far enough to see where it leads.</p>
+      <p>New work is added over time. Browse a collection, follow a story, or come back when something new catches your eye.</p>
+      <a class="about-link" href="https://github.com/tonirankrishna-ai/CuriousMind" target="_blank" rel="noopener noreferrer">View the project on GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page { display: grid; grid-template-columns: 1fr 0.8fr; gap: 10vw; padding-top: 90px; padding-bottom: 110px; }
+  .about-heading h1 { max-width: 620px; margin: 0; }
+  .about-copy { padding-top: 36px; color: var(--color-text-secondary); font-size: 1.05rem; }
+  .about-copy .about-lead { color: var(--color-text-primary); font: 400 1.7rem/1.25 var(--font-display); }
+  .about-link { display: inline-flex; gap: 12px; margin-top: 16px; color: var(--color-text-primary); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); text-decoration-thickness: 1px; text-underline-offset: 5px; }
+  @media (max-width: 760px) { .about-page { grid-template-columns: 1fr; gap: 24px; padding-top: 62px; padding-bottom: 76px; } .about-copy { padding-top: 0; } }
+</style>

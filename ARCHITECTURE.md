@@ -328,7 +328,7 @@ npm run build (Astro compilation)
 Local Development
         │
         │ npm run dev
-        │ (test locally on http://localhost:3000)
+        │ (test locally on http://localhost:4321)
         │
         ▼
 Version Control (Git)
@@ -456,7 +456,7 @@ The architecture is designed to be easily extended:
 Want to add a new content type?
 
 1. Create new folder: src/content/illustrations/
-2. Add schema to src/content/config.ts
+2. Add schema to src/content.config.ts
 3. Update Decap config: public/admin/config.yml
 4. Create page: src/pages/illustrations/index.astro
 5. Add component: src/components/IllustrationGallery.astro

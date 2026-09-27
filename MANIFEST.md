@@ -148,7 +148,7 @@ Everything needed to build and deploy a professional portfolio site. **0 additio
 
 ## 📝 Content Configuration
 
-### **src/content/config.ts**
+### **src/content.config.ts**
 - Content collection definitions
 - Zod schemas for validation
 - Comics schema (title, description, genre, image)

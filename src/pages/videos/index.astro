@@ -1,0 +1,259 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const allVideos = await getCollection('videos');
+const sortedVideos = allVideos.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function resolveYouTubeVideoId(input: string): string | null {
+  const iframeSource = input.match(/src=["']([^"']+)["']/i)?.[1];
+  const value = iframeSource ?? input.trim();
+
+  if (/^[\w-]{11}$/.test(value)) return value;
+
+  try {
+    const url = new URL(value);
+    const host = url.hostname.toLowerCase();
+    const supportedHosts = [
+      'youtube.com',
+      'www.youtube.com',
+      'm.youtube.com',
+      'youtube-nocookie.com',
+      'www.youtube-nocookie.com',
+      'youtu.be',
+      'www.youtu.be',
+    ];
+
+    if (!supportedHosts.includes(host)) return null;
+
+    const pathId = url.pathname.match(/^\/(?:embed|shorts|live)\/([^/?]+)/)?.[1];
+    const videoId = host.includes('youtu.be')
+      ? url.pathname.split('/').filter(Boolean)[0]
+      : url.searchParams.get('v') ?? pathId;
+
+    return videoId && /^[\w-]{11}$/.test(videoId) ? videoId : null;
+  } catch {
+    return null;
+  }
+}
+
+const videos = sortedVideos.map((video) => ({
+  video,
+  videoId: resolveYouTubeVideoId(video.data.videoId),
+}));
+---
+
+<BaseLayout title="Videos" description="Motion and moving pictures">
+  <div class="container">
+    <section class="videos-header">
+      <p class="label">Moving Pictures</p>
+      <h1>Videos</h1>
+      <p class="description">
+        Moving pictures, process docs, and things that work better in motion.
+      </p>
+    </section>
+
+    <section class="videos-gallery">
+      {videos.length > 0 ? (
+        <div class="videos-grid">
+          {videos.map(({ video, videoId }) => (
+            <div class="video-card">
+              {videoId ? (
+                <div class="video-wrapper">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+                    title={video.data.title}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                </div>
+              ) : (
+                <div class="video-wrapper video-error" role="status">
+                  Invalid YouTube URL or video ID
+                </div>
+              )}
+              <div class="video-info">
+                {video.data.category && (
+                  <span class="video-category">
+                    {video.data.category.charAt(0).toUpperCase() + video.data.category.slice(1)}
+                  </span>
+                )}
+                <h3>{video.data.title}</h3>
+                <p>{video.data.description}</p>
+                {video.data.duration && (
+                  <time class="video-duration">{video.data.duration}</time>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state">
+          <p>No videos yet. Check back soon!</p>
+          <p class="hint">Use the <a href="/admin/">admin panel</a> to add your first video.</p>
+        </div>
+      )}
+
+      <div class="video-submission">
+        <p>Want to add a YouTube video?</p>
+        <p class="hint">
+          Add a YouTube watch, share, or embed URL (or its 11-character ID) to a video entry.
+        </p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .videos-header {
+    padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  h1 {
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.1;
+  }
+
+  .description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    max-width: 600px;
+  }
+
+  .videos-gallery {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .video-card {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+
+  .video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-info {
+    padding: var(--spacing-lg);
+  }
+
+  .video-category {
+    display: inline-block;
+    background-color: var(--color-accent);
+    color: var(--color-background);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .video-info h3 {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-lg);
+    line-height: 1.2;
+  }
+
+  .video-info p {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .video-duration {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: var(--spacing-4xl) var(--spacing-2xl);
+  }
+
+  .empty-state p {
+    margin: 0 0 var(--spacing-lg);
+    font-size: var(--font-size-lg);
+  }
+
+  .hint {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+  }
+
+  .hint a {
+    color: var(--color-accent);
+  }
+
+  .video-submission {
+    background-color: var(--color-border);
+    padding: var(--spacing-2xl);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    border: 1px dashed var(--color-border);
+  }
+
+  .video-submission p {
+    margin: 0;
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .video-submission .hint {
+    margin-top: var(--spacing-md);
+  }
+
+  @media (max-width: 768px) {
+    .videos-header {
+      padding: var(--spacing-3xl) 0 var(--spacing-xl);
+    }
+
+    .videos-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-lg);
+    }
+  }
+</style>
