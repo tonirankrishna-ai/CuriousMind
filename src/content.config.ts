@@ -38,6 +38,7 @@ const projects = defineCollection({
     status: z.enum(['completed', 'ongoing', 'planned']).default('planned'),
     github: z.string().optional(),
     demo: z.string().optional(),
+    videoUrl: z.string().optional(),
     featured: z.boolean().default(false),
   }),
 });

@@ -1,11 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { resolveYouTubeVideoId } from '../../utils/youtube';
 import { getCollection } from 'astro:content';
 
 const allProjects = await getCollection('projects');
 const sortedProjects = allProjects.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+const projects = sortedProjects.map((project) => ({
+  project,
+  videoId: project.data.videoUrl
+    ? resolveYouTubeVideoId(project.data.videoUrl)
+    : null,
+}));
 
 const statusLabels: Record<string, string> = {
   completed: 'Completed',
@@ -25,7 +32,7 @@ const statusLabels: Record<string, string> = {
     </section>
 
     <section class="projects-list">
-      {sortedProjects.map((project, index) => (
+      {projects.map(({ project, videoId }, index) => (
         <div class="project-item">
           <div class="project-number">
             {String(index + 1).padStart(2, '0')}
@@ -38,6 +45,24 @@ const statusLabels: Record<string, string> = {
               </span>
             </div>
             <p class="project-description">{project.data.description}</p>
+
+            {project.data.videoUrl && (
+              videoId ? (
+                <div class="project-video">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${videoId}`}
+                    title={`${project.data.title} video`}
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                  ></iframe>
+                </div>
+              ) : (
+                <p class="video-error" role="status">This project's YouTube URL is invalid.</p>
+              )
+            )}
 
             {project.data.tags.length > 0 && (
               <div class="project-tags">
@@ -175,6 +200,28 @@ const statusLabels: Record<string, string> = {
     margin: 0 0 var(--spacing-md);
     color: var(--color-text-secondary);
     line-height: 1.8;
+  }
+
+  .project-video {
+    position: relative;
+    width: min(100%, 760px);
+    aspect-ratio: 16 / 9;
+    margin: var(--spacing-lg) 0 var(--spacing-xl);
+    overflow: hidden;
+    background: var(--color-text-primary);
+  }
+
+  .project-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .video-error {
+    color: #a52f20;
+    font-size: var(--font-size-sm);
   }
 
   .project-tags {

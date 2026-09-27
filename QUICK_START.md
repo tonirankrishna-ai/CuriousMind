@@ -98,7 +98,25 @@ GitHub:
    - Project Image: Upload (optional)
    - GitHub URL: https://github.com/... (optional)
    - Demo URL: https://demo.com (optional)
+   - YouTube video URL or ID (optional)
 3. Commit to `main` to publish.
+
+Example project frontmatter with an embedded YouTube video:
+
+```yaml
+---
+title: "Forest Short Film"
+description: "A short film made for the project."
+pubDate: 2026-09-27
+tags:
+  - film
+  - animation
+status: "completed"
+videoUrl: "https://www.youtube.com/embed/cZPRtNM55Go?si=tljDxd5gj6vQngCP"
+---
+```
+
+`videoUrl` is optional. Paste the full YouTube embed, watch, or share URL, or the 11-character video ID. The project page displays it in a responsive player.
 ```
 
 ---
