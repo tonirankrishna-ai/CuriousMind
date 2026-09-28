@@ -144,8 +144,29 @@ button {
 }
 
 .site-footer > a:last-child {
-  max-width: 240px;
+  max-width: 320px;
   text-align: right;
+}
+
+.footer-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  transition: color var(--transition-fast);
+}
+
+.footer-contact span {
+  color: var(--color-accent);
+  text-transform: lowercase;
+}
+
+.footer-contact:hover {
+  color: #c44b38;
 }
 
 .label,

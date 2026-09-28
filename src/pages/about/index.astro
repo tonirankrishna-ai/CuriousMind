@@ -40,6 +40,16 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
     <p class="quote">“Whoa… I didn’t know that!”</p>
     <p>Explore around, read a comic, watch a video, discover something strange, and maybe learn something new.</p>
     <p class="signoff">Stay curious. Keep creating. Never trust a dinosaur.</p>
+
+    <div class="contact-card">
+      <div>
+        <p class="contact-label">Have a thought, question, or just want to say hi?</p>
+        <p class="contact-sub">Drop me a line anytime.</p>
+      </div>
+      <a class="contact-button" href="mailto:tonirankrishna@gmail.com">
+        Say hello <span>tonirankrishna@gmail.com</span> <span aria-hidden="true">↗</span>
+      </a>
+    </div>
   </section>
 </BaseLayout>
 
@@ -72,6 +82,53 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
   .why-section > p:not(.eyebrow) { max-width: 650px; color: rgba(255,255,255,0.78); line-height: 1.7; }
   .why-section .quote { margin: 24px 0; color: var(--color-accent-yellow); font-family: var(--font-display); font-size: 2rem; }
   .why-section .signoff { margin-top: 32px; color: var(--color-accent-yellow); font-size: 1.2rem; font-weight: var(--font-weight-bold); }
+  .contact-card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 52px;
+    padding: 28px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.05);
+  }
+  .contact-label {
+    margin: 0;
+    color: #fffdf8;
+    font-size: 1.15rem;
+    font-weight: var(--font-weight-semibold);
+  }
+  .contact-sub {
+    margin: 4px 0 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: var(--font-size-sm);
+  }
+  .contact-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: var(--color-accent-yellow);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-transform: uppercase;
+    border-radius: var(--radius-sm);
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+  .contact-button span {
+    font-weight: 500;
+    text-transform: lowercase;
+  }
+  .contact-button:hover {
+    background: var(--color-accent);
+    color: #fffdf8;
+    transform: translateY(-2px);
+  }
   .interest-list a:hover { color: var(--color-accent); }
   @media (max-width: 1050px) {
     h1 { font-size: 3.75rem; }
