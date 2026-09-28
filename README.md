@@ -96,7 +96,6 @@ curious-minds/
 │   │   └── admin/index.astro # GitHub content links
 │   ├── content/             # Markdown content edited through GitHub
 │   │   ├── comics/
-│   │   ├── photos/
 │   │   ├── projects/
 │   │   └── videos/
 │   └── styles/
@@ -170,10 +169,9 @@ git push origin main
 - Markdown descriptions
 
 ### Photos
-- **Category filters** (All, Street, Nature, People, Places)
-- **Responsive masonry grid**
-- **Full-size image modal** viewing
-- Captions and metadata
+- **Automatic image discovery** from `public/images/photos/`; filenames become titles and numeric prefixes control order
+- **Category filters** from optional `street/`, `nature/`, `people/`, and `places/` subfolders
+- **Responsive grid** with a full-size photo viewer
 
 ### Projects
 - **Technology tags** (web-design, branding, 3d, etc.)

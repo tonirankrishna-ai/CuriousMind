@@ -3,26 +3,26 @@ const collections = [
   {
     title: 'Comics',
     description: 'Stories, descriptions, genres, and cover images.',
-    path: 'comics',
+    path: 'src/content/comics',
   },
   {
     title: 'Photos',
-    description: 'Photo captions, categories, and image paths.',
-    path: 'photos',
+    description: 'Upload image files; filenames become titles and category folders filter the gallery.',
+    path: 'public/images/photos',
   },
   {
     title: 'Projects',
     description: 'Project details, tags, status, and links.',
-    path: 'projects',
+    path: 'src/content/projects',
   },
   {
     title: 'Videos',
     description: 'Video details and YouTube URLs or IDs.',
-    path: 'videos',
+    path: 'src/content/videos',
   },
 ];
 
-const repositoryContentUrl = 'https://github.com/tonirankrishna-ai/CuriousMind/tree/main/src/content';
+const repositoryRootUrl = 'https://github.com/tonirankrishna-ai/CuriousMind/tree/main';
 ---
 
 <!doctype html>
@@ -88,7 +88,7 @@ const repositoryContentUrl = 'https://github.com/tonirankrishna-ai/CuriousMind/t
               <h2>{collection.title}</h2>
               <p>{collection.description}</p>
             </div>
-            <a class="collection-link" href={`${repositoryContentUrl}/${collection.path}`} target="_blank" rel="noopener noreferrer">
+            <a class="collection-link" href={`${repositoryRootUrl}/${collection.path}`} target="_blank" rel="noopener noreferrer">
               Open folder <span aria-hidden="true">↗</span>
             </a>
           </li>

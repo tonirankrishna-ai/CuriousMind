@@ -54,12 +54,13 @@ git push origin main
 ## 📷 Publish a Photo
 
 ```
-1. Open `/admin/` and click the Photos folder.
-2. Choose **Add file → Create new file** and add a Markdown entry.
-3. Upload the image to `public/images/photos/`.
-4. Use an image path starting with `/images/photos/` in the entry.
-5. Commit to `main` to publish.
+1. Open `/admin/` and click the Photos folder, or browse to `public/images/photos/` in GitHub.
+2. Choose **Add file → Upload files** and upload JPG, PNG, WebP, GIF, or AVIF images.
+3. Give files readable names, such as `night-city.jpg` or `01-first-light.webp`. The filename becomes the photo title; numeric prefixes control order.
+4. Commit to `main`. No Markdown entry is needed; the gallery discovers images during the site build.
 ```
+
+Optional categories: put images in `street/`, `nature/`, `people/`, or `places/` subfolders under `public/images/photos/`. The matching filter is assigned automatically. Images uploaded directly into `photos/` appear under **All**.
 
 ---
 
@@ -127,7 +128,6 @@ videoUrl: "https://www.youtube.com/embed/cZPRtNM55Go?si=tljDxd5gj6vQngCP"
 Your Content Lives Here:
 
 Comics:       /src/content/comics/
-Photos:       /src/content/photos/
 Videos:       /src/content/videos/
 Projects:     /src/content/projects/
 
@@ -136,6 +136,8 @@ Comics:       /public/images/comics/
 Photos:       /public/images/photos/
 Projects:     /public/images/projects/
 ```
+
+Photo files are discovered automatically at build time. Use readable filenames; a numeric prefix controls display order and is removed from the title. For category filters, use folders such as `public/images/photos/nature/` or `public/images/photos/street/`. Supported formats are JPG/JPEG, PNG, WebP, GIF, and AVIF.
 
 ---
 

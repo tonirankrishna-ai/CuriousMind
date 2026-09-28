@@ -40,8 +40,6 @@ curious-minds/
 │       │   └── [project-entries-in-markdown]
 │       ├── videos/
 │       │   └── [video-entries-in-markdown]
-│       └── photos/
-│           └── [photo-entries-in-markdown]
 ├── public/
 │   ├── images/
 │   │   ├── comics/
@@ -65,7 +63,7 @@ curious-minds/
 4. `CNAME` - GitHub Pages domain file
 5. Layout components (Astro files)
 6. Content collection configuration
-7. GitHub content hub
+7. GitHub content hub; photos are image files in `public/images/photos/`
 8. Deployment & DNS setup guide
 
 All files are provided in the following sections.

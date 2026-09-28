@@ -15,17 +15,6 @@ const comics = defineCollection({
   }),
 });
 
-const photos = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/photos' }),
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    image: z.string(),
-    category: z.enum(['all', 'street', 'nature', 'people', 'places']).default('all'),
-  }),
-});
-
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
@@ -56,4 +45,4 @@ const videos = defineCollection({
   }),
 });
 
-export const collections = { comics, photos, projects, videos };
+export const collections = { comics, projects, videos };

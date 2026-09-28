@@ -26,9 +26,9 @@ The workflow in `.github/workflows/deploy.yml` builds and deploys every push to 
 
 ## Manage Content
 
-Content lives in `src/content/comics/`, `photos/`, `projects/`, and `videos/`. Collection schemas are in `src/content.config.ts`. Open [/admin/](https://nirankrishna.in/admin/) and choose a GitHub folder, or go directly to the repository. Use **Add file → Create new file** to add Markdown, or **Add file → Upload files** to upload images. Commit to `main`; GitHub Actions builds and publishes the update.
+Comics, projects, and videos use Markdown under `src/content/`. Photos are automatic: upload image files directly under `public/images/photos/`; filenames become titles, and subfolders `street/`, `nature/`, `people/`, or `places/` set photo filters. Open [/admin/](https://nirankrishna.in/admin/) to jump to each GitHub folder. Commit to `main`; GitHub Actions builds and publishes the update.
 
-For images, upload to `public/images/comics/`, `public/images/photos/`, or `public/images/projects/`. In Markdown, refer to the image as `/images/...`.
+For comic and project images, upload to `public/images/comics/` or `public/images/projects/` and refer to them in Markdown as `/images/...`.
 
 ## Guides
 

@@ -152,7 +152,6 @@ Everything needed to build and deploy a professional portfolio site. **0 additio
 - Content collection definitions
 - Zod schemas for validation
 - Comics schema (title, description, genre, image)
-- Photos schema (title, image, category)
 - Projects schema (tags, status, GitHub, demo links)
 - Videos schema (YouTube ID, duration, category)
 
@@ -183,8 +182,6 @@ src/
 │   ├── comics/
 │   │   ├── exploration-into-the-dark.md
 │   │   └── [your-comics].md
-│   ├── photos/
-│   │   └── [your-photos].md
 │   ├── projects/
 │   │   └── [your-projects].md
 │   └── videos/
@@ -202,7 +199,7 @@ src/
 public/
 ├── images/
 │   ├── comics/
-│   ├── photos/
+│   ├── photos/ (image files; optional category subfolders)
 │   └── projects/
 └── CNAME
 ```
