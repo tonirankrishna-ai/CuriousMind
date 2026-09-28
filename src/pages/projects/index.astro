@@ -95,9 +95,30 @@ const statusLabels: Record<string, string> = {
       ))}
 
       {sortedProjects.length === 0 && (
-        <div class="empty-state">
-          <p>No projects yet. Check back soon!</p>
-          <p class="hint">Use the <a href="/admin/">admin panel</a> to add your first project.</p>
+        <div class="empty-state-banner">
+          <div class="banner-badge">🔨 Under Construction</div>
+          <h2>Cooking up something interesting!</h2>
+          <p class="banner-tagline">
+            No projects here just yet — mostly because the code is currently held together by duct tape, coffee, and sheer optimism.
+          </p>
+          <div class="banner-status-cards">
+            <div class="status-card">
+              <span class="card-icon">🧪</span>
+              <strong>Lab experiments</strong>
+              <span>Currently in the "it works on my machine" phase.</span>
+            </div>
+            <div class="status-card">
+              <span class="card-icon">☕</span>
+              <strong>Fuel level</strong>
+              <span>Coffee converted into ideas: 94%.</span>
+            </div>
+            <div class="status-card">
+              <span class="card-icon">🚀</span>
+              <strong>Status</strong>
+              <span>Plotting, tinkering, and almost ready to show the world.</span>
+            </div>
+          </div>
+          <p class="banner-footer">Check back soon, or wander over to <a href="/comics/">comics</a> or <a href="/photos/">photos</a> in the meantime!</p>
         </div>
       )}
     </section>
@@ -265,23 +286,87 @@ const statusLabels: Record<string, string> = {
     margin-top: var(--spacing-md);
   }
 
-  .empty-state {
+  .empty-state-banner {
     text-align: center;
     padding: var(--spacing-4xl) var(--spacing-2xl);
+    background: var(--color-surface);
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    margin: var(--spacing-2xl) 0;
   }
 
-  .empty-state p {
-    margin: 0 0 var(--spacing-lg);
-    font-size: var(--font-size-lg);
+  .banner-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--color-accent-yellow);
+    color: var(--color-text-primary);
+    border-radius: 999px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: var(--spacing-lg);
   }
 
-  .hint {
-    color: var(--color-text-secondary);
+  .empty-state-banner h2 {
+    font-size: var(--font-size-2xl);
+    margin: 0 0 var(--spacing-md);
+    color: var(--color-text-primary);
+  }
+
+  .banner-tagline {
     font-size: var(--font-size-base);
+    color: var(--color-text-secondary);
+    max-width: 540px;
+    margin: 0 auto var(--spacing-3xl);
+    line-height: 1.6;
   }
 
-  .hint a {
+  .banner-status-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    max-width: 760px;
+    margin: 0 auto var(--spacing-3xl);
+    text-align: left;
+  }
+
+  .status-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-lg);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .card-icon {
+    font-size: 1.6rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .status-card strong {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-primary);
+  }
+
+  .status-card span:last-child {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  .banner-footer {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  .banner-footer a {
     color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: underline;
   }
 
   @media (max-width: 768px) {
