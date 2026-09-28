@@ -17,3 +17,8 @@ featured: true
 ![After the encounter, Bob and Jeff see the creature turn to red ash.](/images/comics/04-red-ash-aftermath.jpg)
 
 ![The boys realize another monster may be nearby.](/images/comics/05-another-monster.jpg)
+
+![Chapter 6: Chase and Speed](/images/comics/06-Chase-and-Speed.jpg)
+
+![Chapter 7: Escape Route](/images/comics/07-Escape-Route.jpg)
+
