@@ -26,8 +26,8 @@ const featuredPhoto = photos[0];
     </div>
     <div class="hero-art">
       <img
-        src="https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=85"
-        alt="City lights at night"
+        src="/images/hero-art.png"
+        alt="Illustration of a curious thinker and small companion exploring ideas"
         fetchpriority="high"
       />
       <span class="hero-note">notes from<br />the edge<br />of ordinary</span>
@@ -110,9 +110,43 @@ const featuredPhoto = photos[0];
   .button-dark { background: var(--color-text-primary); color: var(--color-background); }
   .button-light { border: 1px solid rgba(255, 255, 255, 0.65); color: #fffdf8; }
   .button:hover { background: var(--color-accent); color: var(--color-text-primary); }
-  .hero-art { position: relative; width: min(39vw, 500px); aspect-ratio: 0.92; justify-self: end; transform: rotate(4deg); background: var(--color-accent-yellow); }
-  .hero-art img { width: 100%; height: 100%; object-fit: cover; }
-  .hero-note { position: absolute; right: 14px; bottom: 14px; padding: 14px; background: var(--color-accent-yellow); font-size: var(--font-size-xs); line-height: 1.3; text-transform: uppercase; }
+  .hero-art {
+    position: relative;
+    width: min(44vw, 540px);
+    aspect-ratio: 1.15;
+    justify-self: end;
+    transform: rotate(2.5deg);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 10px;
+    transition: transform var(--transition-base);
+  }
+  .hero-art:hover {
+    transform: rotate(0deg) scale(1.01);
+  }
+  .hero-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+  .hero-note {
+    position: absolute;
+    right: -12px;
+    bottom: -14px;
+    padding: 12px 16px;
+    background: var(--color-accent-yellow);
+    border: 1px solid var(--color-text-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 var(--color-text-primary);
+    z-index: 2;
+  }
   .archive-section { padding: 90px 10vw; border-top: 1px solid var(--color-border); }
   .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 36px; }
   .section-heading .eyebrow { margin-bottom: 14px; }
@@ -154,7 +188,8 @@ const featuredPhoto = photos[0];
   @media (max-width: 760px) {
     .hero { display: block; min-height: 0; padding: 64px 8vw 26px; }
     .hero h1 { font-size: 2.7rem; }
-    .hero-art { width: min(42vw, 190px); margin: 26px auto 0; }
+    .hero-art { width: min(85vw, 360px); margin: 36px auto 0; }
+    .hero-note { right: 8px; bottom: -10px; padding: 8px 12px; }
     .archive-section { padding: 68px 8vw; }
     .section-heading { align-items: flex-start; flex-direction: column; }
     .feature-card { grid-template-columns: 1fr; }
